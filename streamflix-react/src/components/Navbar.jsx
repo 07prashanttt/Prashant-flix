@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Bell, ChevronDown, Play, X, Sparkles } from 'lucide-react';
 import { useList } from '../context/ListContext';
@@ -8,7 +9,7 @@ const ALL_MEDIA = [
   ...trendingData,
   ...continueWatchingData,
   ...topPicksData
-].filter((item, index, self) => 
+].filter((item, index, self) =>
   self.findIndex(i => i.id === item.id) === index
 );
 
@@ -52,13 +53,13 @@ const findMovieById = (id) => {
 };
 
 const NAV_LINKS = [
-  { label: 'Home',              page: 'home' },
-  { label: 'TV Shows',          page: 'tv-shows' },
-  { label: 'Movies',            page: 'movies' },
-  { label: 'New & Popular',     page: 'new-popular' },
-  { label: 'AI Recs',           page: 'recommendations' },
-  { label: 'My List',           page: 'my-list' },
-  { label: 'Browse by Language',page: 'home' },
+  { label: 'Home', page: 'home' },
+  { label: 'TV Shows', page: 'tv-shows' },
+  { label: 'Movies', page: 'movies' },
+  { label: 'New & Popular', page: 'new-popular' },
+  { label: 'AI Recs', page: 'recommendations' },
+  { label: 'My List', page: 'my-list' },
+  { label: 'Browse by Language', page: 'home' },
 ];
 
 export default function Navbar({ currentPage, onNavigate }) {
@@ -67,10 +68,18 @@ export default function Navbar({ currentPage, onNavigate }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const { myList, activeProfile, selectProfile, showSettings, logout, showDetails } = useList();
+
+  const {
+    myList,
+    activeProfile,
+    selectProfile,
+    showSettings,
+    logout,
+    showDetails
+  } = useList();
 
   const searchResults = searchQuery
-    ? ALL_MEDIA.filter(item => 
+    ? ALL_MEDIA.filter(item =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.genre.toLowerCase().includes(searchQuery.toLowerCase())
       )
@@ -90,10 +99,14 @@ export default function Navbar({ currentPage, onNavigate }) {
     >
       {/* Left — Logo + Nav */}
       <div className="flex items-center gap-8">
-        {/* StreamFlix Logo — click goes home */}
-        <button onClick={() => onNavigate('home')} className="gsap-nav-logo flex-shrink-0 focus:outline-none bg-transparent border-0 cursor-pointer">
+
+        {/* PRASHANT FLIX Logo */}
+        <button
+          onClick={() => onNavigate('home')}
+          className="gsap-nav-logo flex-shrink-0 focus:outline-none bg-transparent border-0 cursor-pointer"
+        >
           <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-[#e50914] flex items-center">
-            STREAM<span className="text-white">FLIX</span><sup className="text-[10px] sm:text-xs font-semibold text-white/50 ml-0.5">TM</sup>
+            PRASHANT<span className="text-white">FLIX</span>
           </span>
         </button>
 
@@ -110,16 +123,17 @@ export default function Navbar({ currentPage, onNavigate }) {
                   }`}
                 >
                   {link.label}
+
                   {link.page === 'recommendations' && (
                     <Sparkles size={11} className="inline-block ml-1 text-amber-400 animate-pulse" />
                   )}
-                  {/* My List badge */}
+
                   {link.page === 'my-list' && myList.length > 0 && (
                     <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 bg-red-600 text-white text-[9px] font-bold rounded-full">
                       {myList.length > 9 ? '9+' : myList.length}
                     </span>
                   )}
-                  {/* Active underline */}
+
                   {isActive && (
                     <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-white rounded-full" />
                   )}
@@ -132,7 +146,7 @@ export default function Navbar({ currentPage, onNavigate }) {
 
       {/* Right — Search, Bell, Profile */}
       <div className="gsap-nav-right flex items-center gap-4">
-        
+
         {/* Search Bar */}
         <div className={`relative flex items-center transition-all duration-300 ${searchOpen ? 'w-48 sm:w-64 bg-black/60 border border-white/20 px-2.5 py-1 rounded-md' : 'w-8 justify-center bg-transparent border-0'}`}>
           {searchOpen ? (
@@ -145,21 +159,24 @@ export default function Navbar({ currentPage, onNavigate }) {
                 className="bg-transparent border-none outline-none text-white text-xs w-full mr-2"
                 autoFocus
               />
-              <button 
-                onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+              <button
+                onClick={() => {
+                  setSearchOpen(false);
+                  setSearchQuery('');
+                }}
                 className="text-white/40 hover:text-white bg-transparent border-0 cursor-pointer flex items-center justify-center p-0"
               >
                 <X size={14} />
               </button>
             </>
           ) : (
-            <button 
+            <button
               onClick={() => {
                 setSearchOpen(true);
                 setDropdownOpen(false);
                 setNotificationsOpen(false);
               }}
-              className="text-white/70 hover:text-white transition-colors bg-transparent border-0 cursor-pointer flex items-center justify-center" 
+              className="text-white/70 hover:text-white transition-colors bg-transparent border-0 cursor-pointer flex items-center justify-center"
               aria-label="Search"
             >
               <Search size={18} />
@@ -167,15 +184,15 @@ export default function Navbar({ currentPage, onNavigate }) {
           )}
         </div>
 
-        {/* Notifications Icon & Dropdown */}
+        {/* Notifications */}
         <div className="relative">
-          <button 
+          <button
             onClick={() => {
               setNotificationsOpen(!notificationsOpen);
               setSearchOpen(false);
               setDropdownOpen(false);
             }}
-            className="relative text-white/70 hover:text-white transition-colors bg-transparent border-0 cursor-pointer flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10" 
+            className="relative text-white/70 hover:text-white transition-colors bg-transparent border-0 cursor-pointer flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10"
             aria-label="Notifications"
           >
             <Bell size={18} />
@@ -185,13 +202,20 @@ export default function Navbar({ currentPage, onNavigate }) {
           {notificationsOpen && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setNotificationsOpen(false)} />
-              
+
               <div className="absolute right-0 mt-2.5 w-72 sm:w-80 rounded-xl border border-white/10 bg-[#0c0a18]/90 backdrop-blur-xl p-3 shadow-2xl z-50 flex flex-col gap-2 text-xs text-white/80 animate-fadeIn">
                 <div className="flex items-center justify-between px-1.5 py-1 border-b border-white/10 mb-1">
-                  <span className="text-[10px] uppercase font-bold text-white/40 tracking-wider">Notifications</span>
-                  <span className="text-[9.5px] text-emerald-400 font-bold hover:underline cursor-pointer" onClick={() => setNotificationsOpen(false)}>Mark all read</span>
+                  <span className="text-[10px] uppercase font-bold text-white/40 tracking-wider">
+                    Notifications
+                  </span>
+                  <span
+                    className="text-[9.5px] text-emerald-400 font-bold hover:underline cursor-pointer"
+                    onClick={() => setNotificationsOpen(false)}
+                  >
+                    Mark all read
+                  </span>
                 </div>
-                
+
                 <div className="flex flex-col gap-1.5 max-h-60 overflow-y-auto">
                   {NOTIFICATIONS.map((n) => {
                     const movie = findMovieById(n.movieId);
@@ -205,7 +229,11 @@ export default function Navbar({ currentPage, onNavigate }) {
                         className="flex gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left font-medium"
                       >
                         {movie && (
-                          <img src={movie.image} alt={movie.title} className="w-12 h-8 rounded object-cover flex-shrink-0 border border-white/10" />
+                          <img
+                            src={movie.image}
+                            alt={movie.title}
+                            className="w-12 h-8 rounded object-cover flex-shrink-0 border border-white/10"
+                          />
                         )}
                         <div className="flex flex-col gap-0.5">
                           <p className="text-white/95 leading-tight">{n.message}</p>
@@ -219,10 +247,10 @@ export default function Navbar({ currentPage, onNavigate }) {
             </>
           )}
         </div>
-        
-        {/* Interactive Dropdown Avatar */}
+
+        {/* Profile Avatar */}
         <div className="relative">
-          <div 
+          <div
             onClick={() => {
               setDropdownOpen(!dropdownOpen);
               setSearchOpen(false);
@@ -230,13 +258,13 @@ export default function Navbar({ currentPage, onNavigate }) {
             }}
             className="flex items-center gap-1 cursor-pointer group/profile"
           >
-            <div 
+            <div
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 border backdrop-blur-md ${
-                activeProfile === 'children' 
-                  ? 'bg-emerald-500/40 border-emerald-300/50 shadow-[0_6px_12px_rgba(16,185,129,0.3),inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-3px_6px_rgba(0,0,0,0.4)] text-emerald-50' 
+                activeProfile === 'children'
+                  ? 'bg-emerald-500/40 border-emerald-300/50 shadow-[0_6px_12px_rgba(16,185,129,0.3),inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-3px_6px_rgba(0,0,0,0.4)] text-emerald-50'
                   : 'bg-red-500/40 border-red-300/50 shadow-[0_6px_12px_rgba(229,9,20,0.3),inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-3px_6px_rgba(0,0,0,0.4)] text-red-50'
               }`}
-              style={{ 
+              style={{
                 fontFamily: '"Arial Black", Impact, sans-serif',
                 fontSize: '22px',
                 lineHeight: '1',
@@ -249,25 +277,24 @@ export default function Navbar({ currentPage, onNavigate }) {
             <ChevronDown size={13} className="text-white/60 group-hover/profile:rotate-180 transition-transform duration-200" />
           </div>
 
-          {/* Profile Dropdown Menu */}
+          {/* Profile Dropdown */}
           {dropdownOpen && (
             <>
-              {/* Invisible overlay to close dropdown */}
               <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-              
+
               <div className="absolute right-0 mt-6 w-52 rounded-[24px] p-4 z-50 flex flex-col gap-1.5 text-xs text-white/80 animate-fadeIn font-sans bg-black/40 backdrop-blur-xl border border-white/20 shadow-[0_15px_35px_rgba(0,0,0,0.6),inset_0_2px_8px_rgba(255,255,255,0.3),inset_0_-4px_8px_rgba(0,0,0,0.5)]">
-                {/* Animated X-Ray Skeleton Laser Scanner (optional, kept for aesthetic) */}
                 <div className="skeleton-laser" />
 
-                {/* Content Layer (perfectly stable text and items) */}
                 <div className="relative z-10 flex flex-col gap-1.5">
                   <span className="px-2.5 py-0.5 text-[9px] uppercase font-black text-[#39ff14] tracking-[0.2em]" style={{ textShadow: '0 0 8px rgba(57, 255, 20, 0.4)' }}>
                     Skeletons
                   </span>
-                  
-                  {/* Switch to Adults */}
+
                   <button
-                    onClick={() => { selectProfile('adults'); setDropdownOpen(false); }}
+                    onClick={() => {
+                      selectProfile('adults');
+                      setDropdownOpen(false);
+                    }}
                     className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-white/5 text-left border-0 bg-transparent text-white cursor-pointer w-full transition-all duration-200 group/item ${
                       activeProfile === 'adults' ? 'font-bold text-red-400' : 'font-bold text-white/70 hover:text-white'
                     }`}
@@ -277,12 +304,16 @@ export default function Navbar({ currentPage, onNavigate }) {
                     } flex items-center justify-center text-[11px] font-black text-red-400 transition-colors shadow-sm`}>
                       💀
                     </div>
-                    <span className="tracking-wide" style={activeProfile === 'adults' ? { textShadow: '0 0 8px rgba(239, 68, 68, 0.3)' } : {}}>Adult Skeletons</span>
+                    <span className="tracking-wide" style={activeProfile === 'adults' ? { textShadow: '0 0 8px rgba(239, 68, 68, 0.3)' } : {}}>
+                      Adult Skeletons
+                    </span>
                   </button>
 
-                  {/* Switch to Children */}
                   <button
-                    onClick={() => { selectProfile('children'); setDropdownOpen(false); }}
+                    onClick={() => {
+                      selectProfile('children');
+                      setDropdownOpen(false);
+                    }}
                     className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-white/5 text-left border-0 bg-transparent text-white cursor-pointer w-full transition-all duration-200 group/item ${
                       activeProfile === 'children' ? 'font-bold text-emerald-400' : 'font-bold text-white/70 hover:text-white'
                     }`}
@@ -292,30 +323,39 @@ export default function Navbar({ currentPage, onNavigate }) {
                     } flex items-center justify-center text-[11px] font-black text-emerald-400 transition-colors shadow-sm`}>
                       👻
                     </div>
-                    <span className="tracking-wide" style={activeProfile === 'children' ? { textShadow: '0 0 8px rgba(52, 211, 153, 0.3)' } : {}}>Baby Ghosts</span>
+                    <span className="tracking-wide" style={activeProfile === 'children' ? { textShadow: '0 0 8px rgba(52, 211, 153, 0.3)' } : {}}>
+                      Baby Ghosts
+                    </span>
                   </button>
 
                   <div className="h-[1px] bg-white/10 my-1 mx-1.5" />
 
-                  {/* Dashboard Button */}
                   <button
-                    onClick={() => { onNavigate('dashboard'); setDropdownOpen(false); }}
+                    onClick={() => {
+                      onNavigate('dashboard');
+                      setDropdownOpen(false);
+                    }}
                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-white/5 text-left border-0 bg-transparent text-white/70 hover:text-white cursor-pointer w-full font-bold tracking-wide transition-all"
                   >
                     <span>User Dashboard 📊</span>
                   </button>
 
-                  {/* Settings Button */}
                   <button
-                    onClick={() => { showSettings(); setDropdownOpen(false); }}
+                    onClick={() => {
+                      showSettings();
+                      setDropdownOpen(false);
+                    }}
                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-white/5 text-left border-0 bg-transparent text-white/70 hover:text-white cursor-pointer w-full font-bold tracking-wide transition-all"
                   >
                     <span>Spooky Settings ⚙️</span>
                   </button>
 
-                  {/* Log Out */}
                   <button
-                    onClick={() => { logout(); onNavigate('landing'); setDropdownOpen(false); }}
+                    onClick={() => {
+                      logout();
+                      onNavigate('landing');
+                      setDropdownOpen(false);
+                    }}
                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-red-500/15 hover:text-red-300 text-left border-0 bg-transparent text-white/70 cursor-pointer w-full font-bold tracking-wide transition-all"
                   >
                     <span>Bail Out! 🏃‍♂️</span>
@@ -334,25 +374,37 @@ export default function Navbar({ currentPage, onNavigate }) {
             <h2 className="text-white/60 text-sm font-semibold tracking-wider mb-6 text-left">
               Search results for "{searchQuery}"
             </h2>
+
             {searchResults.length === 0 ? (
-              <p className="text-white/30 text-sm text-left font-medium">No matches found. Try searching for a different title or genre.</p>
+              <p className="text-white/30 text-sm text-left font-medium">
+                No matches found. Try searching for a different title or genre.
+              </p>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 {searchResults.map((item) => (
-                  <div 
+                  <div
                     key={item.id}
-                    onClick={() => { showDetails(item); setSearchQuery(''); setSearchOpen(false); }}
+                    onClick={() => {
+                      showDetails(item);
+                      setSearchQuery('');
+                      setSearchOpen(false);
+                    }}
                     className="group/search-item cursor-pointer flex flex-col gap-2.5"
                   >
                     <div className="relative aspect-[16/9] rounded-lg overflow-hidden border border-white/10 group-hover/search-item:border-white/30 transition-all duration-300 shadow-md shadow-black/40 group-hover/search-item:scale-[1.03] group-hover/search-item:-translate-y-1">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/search-item:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="w-9 h-9 rounded-full bg-white flex items-center justify-center"><Play size={14} className="text-black fill-black ml-0.5" /></span>
+                        <span className="w-9 h-9 rounded-full bg-white flex items-center justify-center">
+                          <Play size={14} className="text-black fill-black ml-0.5" />
+                        </span>
                       </div>
                     </div>
+
                     <div className="text-left">
                       <p className="text-white font-semibold text-xs truncate">{item.title}</p>
-                      <p className="text-white/50 text-[10px] mt-0.5 font-medium">{item.genre} · {item.year}</p>
+                      <p className="text-white/50 text-[10px] mt-0.5 font-medium">
+                        {item.genre} · {item.year}
+                      </p>
                     </div>
                   </div>
                 ))}
