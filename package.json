@@ -1,5 +1,6 @@
+
 {
-  "name": "streamflix-root",
+  "name": "prashant-flix",
   "private": true,
   "workspaces": [
     "streamflix-react"
